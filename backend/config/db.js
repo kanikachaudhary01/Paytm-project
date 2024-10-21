@@ -10,8 +10,20 @@ try {
 }
 module.exports=connectDB
 
+// const mongoose =require("mongoose")
+// mongoose.connect("mongodb://localhost:8000/paytm")
 
+// const userSchema=mongoose.Schema({
+//     username:String,
+//     password:String,
+//     firstname:String,
+//     lastname:String,
+// })
+// const User = mongoose("User,userSchema")
 
+// module.exports={
+//     User
+// }
 
 
 
