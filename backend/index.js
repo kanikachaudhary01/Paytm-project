@@ -5,8 +5,10 @@ const connectDB = require("./config/db")
 const dotenv =require('dotenv')
 const cors =require("cors")
 const rootRouter=require("./routes/index")
+
 const app = express()
 app.use(cors())
+app.use(express.json())
 const port = 3000
 dotenv.config()
 connectDB()
