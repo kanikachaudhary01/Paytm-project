@@ -1,6 +1,8 @@
 const express =require("express")
 const zod =require("zod")
 const User =require("../models/userModel")
+const bcrypt=require("bcrypt")
+const jwt=require("jsonwebtoken")
 const router =express.Router()
 
 // router.post("/signup")
@@ -25,8 +27,10 @@ router.post("/signup",async(req,res)=>{
         msg:"emaill already exist"
     })
   }
-  const newUser=await User.create({name:req.body.name,email:req.body.email,password:req.body.password})
-  res.status(200).json({msg:"new user created successfuly",newUser:newUser})
+  const hashPassword=await bcrypt.hash(req.body.password,10)
+  const newUser=await User.create({name:req.body.name,email:req.body.email,password:hashPassword})
+  const token=await jwt.sign({userId:newUser._id},process.env.SECRETKEY)
+  res.status(200).json({msg:"new user created successfuly",newUser:newUser,token:token})
 
 
 })
@@ -51,8 +55,10 @@ router.post("/login",async(req,res)=>{
         msg:"user does not exist"
     })
  }
+await  bcrypt.compare(req.body.password,existingUser.password)
+const token=await jwt.sign({userId:existingUser._id},process.env.SECRETKEY)
  res.status(200).json({
-    msg:"user successfully logged in "
+    msg:"user successfully logged in ",token:token
  })
 })
 
