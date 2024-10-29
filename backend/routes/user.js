@@ -3,6 +3,7 @@ const zod =require("zod")
 const User =require("../models/userModel")
 const bcrypt=require("bcrypt")
 const jwt=require("jsonwebtoken")
+const Wallet=require("../models/walletModel")
 const router =express.Router()
 
 // router.post("/signup")
@@ -30,6 +31,7 @@ router.post("/signup",async(req,res)=>{
   const hashPassword=await bcrypt.hash(req.body.password,10)
   const newUser=await User.create({name:req.body.name,email:req.body.email,password:hashPassword})
   const token=await jwt.sign({userId:newUser._id},process.env.SECRETKEY)
+  const balance=await Wallet.create({userId:newUser._id,balance:1+Math.random()*10000})
   res.status(200).json({msg:"new user created successfuly",newUser:newUser,token:token})
 
 
