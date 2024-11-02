@@ -1,11 +1,24 @@
 import React,{useState} from "react"
+import axios from "axios"
 
 const Signup=()=>{
     const [name,setName]=useState()
     const [mail,setMail]=useState()
     const [password,setPassword]=useState()
-    function SignupHandler(){console.log(name,mail,password)}
-    return(
+    async function SignupHandler(){
+        try {
+            const response= await axios.post("http://localhost:5000/api/user/signup",{
+                name:name,
+                email:mail,
+                password:password
+            })
+            console.log (response.data)
+            localStorage.setItem("token",response.data.token)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    return( 
         <div >
            <div className="h-screen w-screen  flex " >
             <div className="w-[50%] bg-blue-700 flex flex-col justify-center items-center ">
