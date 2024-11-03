@@ -60,7 +60,7 @@ router.post("/login",async(req,res)=>{
 await  bcrypt.compare(req.body.password,existingUser.password)
 const token=await jwt.sign({userId:existingUser._id},process.env.SECRETKEY)
  res.status(200).json({
-    msg:"user successfully logged in ",token:token
+    msg:"user successfully logged in ",token:token, existingUser: existingUser
  })
 })
 

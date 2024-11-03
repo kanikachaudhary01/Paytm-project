@@ -1,10 +1,14 @@
 import React,{useState} from "react"
 import axios from "axios"
+import { useNavigate } from "react-router-dom"
 
 const Signup=()=>{
     const [name,setName]=useState()
     const [mail,setMail]=useState()
     const [password,setPassword]=useState()
+
+    const navigate = useNavigate()
+
     async function SignupHandler(){
         try {
             const response= await axios.post("http://localhost:5000/api/user/signup",{
@@ -14,6 +18,7 @@ const Signup=()=>{
             })
             console.log (response.data)
             localStorage.setItem("token",response.data.token)
+            navigate('/dashboard')
         } catch (error) {
             console.log(error)
         }
@@ -41,8 +46,8 @@ const Signup=()=>{
                     <label htmlFor="name">Password</label>
                     <input className=" border rounded-lg border-black px-4 py-2 w-[20rem]" type="text" placeholder="enter the password" onChange={function(e){setPassword(e.target.value)}} />
                 </div>
-                <div className="text-blue-700 underline flex justify-end ">
-                    <a>Already have an account ?</a>
+                <div className="text-blue-700 underline flex justify-end cursor-pointer" onClick={() => navigate("/login")}>
+                    Already have an account ?
                 </div>
                 <div className="my-3">
                     <button className="bg-blue-700 text-white w-[20rem] rounded-lg py-4 text-[1.2rem] font-semibold  " onClick={SignupHandler}>Signup</button>
